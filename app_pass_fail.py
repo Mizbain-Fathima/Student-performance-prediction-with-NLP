@@ -119,9 +119,6 @@ def convert_features_to_meaning(feats):
 def humanize_features(features):
     return [feature_meaning.get(f, f"Impact from {f}") for f in features]
 
-import os
-MODEL_PATH = "models/flan-t5-base"
-
 @st.cache_resource
 def load_summarizer():
     model_name = "google/flan-t5-base"
@@ -138,8 +135,6 @@ def load_summarizer():
         model.save_pretrained(MODEL_PATH)
 
     return tokenizer, model
-
-tokenizer, summarizer_model = load_summarizer()
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
