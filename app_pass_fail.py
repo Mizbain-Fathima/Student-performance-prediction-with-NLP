@@ -104,6 +104,7 @@ def generate_explanation(top_features, prediction_label):
     else:
         return "You are likely to FAIL.\n\nKey contributing reasons:\n- " + "\n- ".join(reasons)
 
+MODEL_PATH="llama-3.1-8b-instant"
 
 def generate_advice(top_features):
     tips = [advice_map.get(f, "") for f in top_features if advice_map.get(f)]
