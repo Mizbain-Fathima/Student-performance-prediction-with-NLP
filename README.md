@@ -1,121 +1,105 @@
-# 🎓 Student Pass/Fail Predictor
+# Student Performance Prediction with AI Explanations 
 
-An interactive Machine Learning web app that predicts whether a student is likely to Pass or Fail based on their academic performance, personal, and socio-economic factors.
-
----
-
-### Built using:
-
-- Scikit-learn — for training the Decision Tree Classifier
-- Pandas — for data handling and preprocessing
-- Joblib — for saving and loading the trained model
-- Streamlit — for creating a clean, interactive web UI
-- Live Demo
-
-Once deployed on Streamlit Cloud, you can access it here:
-
-👉 https://student-pass-fail-predictor.streamlit.app
-
----
-
-## About the Project
-
-This app is based on the Student Performance Dataset.
-The dataset contains detailed information about Portuguese secondary school students, including:
-
-- Demographics (age, gender, address)
-- Academic background (previous grades G1, G2)
-- Family and social factors (parents’ jobs, education, relationships)
-- Lifestyle and study habits (study time, failures, absences)
-
-The model predicts a binary outcome:
-
-PASS → final grade G3 >= 10
-FAIL → final grade G3 < 10
+A Streamlit-based web application that predicts whether a student will **PASS** or **FAIL** based on academic, behavioral, lifestyle, and family factors — and provides **natural-language explanations** and **personalized improvement advice** using an AI agent (Groq LLM).
 
 ---
 
 ## Features
 
-- Predicts Pass/Fail status instantly
-- Displays confidence score (%) for prediction
-- User-friendly, interactive web interface
-- Built entirely with open-source tools
-- Can be accessed anywhere using Streamlit Cloud
+### **Pass/Fail Prediction**
+- Predicts student outcomes using a trained **Decision Tree Model**.
+- Uses features from the **Student Performance Dataset (UCI)**.
 
----
+### **AI-Generated Explanation (NLP Layer)**
 
-## Tech Stack
+Powered by **llama-3.3**:
+- Explains *why* the student is predicted to pass or fail.
+- Identifies *key influencing factors*.
+- Provides *personalized recommendations* for improvement.
+- Produces warm, human-like guidance (counselor style).
 
-| Component         | Technology               |
-| ----------------- | ------------------------ |
-| Model             | Decision Tree Classifier |
-| Framework         | Scikit-learn             |
-| Frontend          | Streamlit                |
-| Data Handling     | Pandas                   |
-| Model Persistence | Joblib                   |
+### **Interactive Streamlit UI**
 
----
+- Clean and simple user interface.
+- Easy sliders and dropdowns for input.
+- Instant prediction + AI explanation.
 
-## Folder Structure
+### **ML Pipeline**
 
+- Preprocessing with One-Hot Encoding & scaling
+- DecisionTreeClassifier for prediction
+- Feature importance extraction for interpretability
+
+## Project Structure
 ```bash
-📦 Student-performance-prediction
- ┣  app_pass_fail.py              # Streamlit web app
- ┣  student_pass_fail_model.py    # Training script for classifier
- ┣  best_pass_fail_model.joblib   # Saved trained ML model
- ┣  student-performance.csv       # Dataset (optional)
- ┣  requirements.txt              # Dependencies for deployment
- ┗  README.md                     # Project documentation
+student-performance-prediction-with-NLP/
+│── app_pass_fail.py # Main Streamlit App
+│── best_pass_fail_model.joblib # Trained ML model
+│── requirements.txt # Dependencies
+│── README.md # Documentation
+│── .env.example # Environment variable example
+│── models/ # Saved NLP model (optional)
+└── data/ # Dataset (optional)
 ```
 
----
+## Installation & Local Setup
 
-##  How to Run Locally
-
-### 1. Clone the repository
+### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/Mizbain-Fathima/student-pass-fail-predictor.git
-cd student-pass-fail-predictor
+git clone https://github.com/Mizbain-Fathima/student-performance-prediction-with-NLP.git
+cd student-performance-prediction-with-NLP
 ```
 
-### 2. Create and activate virtual environment
+### 2️⃣ Create & activate a virtual environment
 ```bash
 python -m venv venv
-venv\Scripts\activate   # For Windows
+venv/Scripts/activate  # Windows
 ```
 
-### 3. Install dependencies
+### 3️⃣ Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the app
+### 4️⃣ Set up environment variables
+Create a .env file:
+```bash
+GROQ_API_KEY=your_groq_key_here
+```
+
+### ▶️ Running the App Locally
 ```bash
 streamlit run app_pass_fail.py
 ```
 
-Your app will start locally at:
+App will open at:
 http://localhost:8501
 
-## Deploying on Streamlit Cloud
+## Deployment (Render)
 
-1. Push your project to a public GitHub repo.
-2. Go to https://share.streamlit.io
-3. Click “New App” → Select your repo and branch.
-4. Set Main file path: app_pass_fail.py
-5. Click Deploy 
+#### 1️⃣ Push to GitHub
+Make sure your repo contains:
+```bash
+requirements.txt
+app_pass_fail.py
+best_pass_fail_model.joblib
+```
 
-Your model and app will be hosted at a public URL like:
-https://student-pass-fail-predictor-jax2iwhfc5qkz4kfkf9fha.streamlit.app
+### 2️⃣ Go to Render
 
----
+https://dashboard.render.com
+ → New Web Service
 
-## Model Summary
+### 3️⃣ Enter these settings:
 
-| Metric              | Value                        |
-| ------------------- | ---------------------------- |
-| **Model Type**      | Decision Tree Classifier     |
-| **Best Depth**      | Tuned via GridSearchCV       |
-| **Accuracy (Test)** | ~85–90% (depending on split) |
-| **Top Features**    | G2, G1, absences, failures   |
+Build Command
+```bash
+pip install -r requirements.txt
+
+# Start Command
+streamlit run app_pass_fail.py --server.port 10000 --server.address 0.0.0.0
+```
+
+### 4️⃣ Add Environment Variable
+GROQ_API_KEY = your_key_here
+
