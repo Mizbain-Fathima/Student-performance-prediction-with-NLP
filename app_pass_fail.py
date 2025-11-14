@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import joblib
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from dotenv import load_dotenv
 from groq import Groq
 import os
@@ -104,8 +103,6 @@ def generate_explanation(top_features, prediction_label):
     else:
         return "You are likely to FAIL.\n\nKey contributing reasons:\n- " + "\n- ".join(reasons)
 
-MODEL_PATH="llama-3.1-8b-instant"
-
 def generate_advice(top_features):
     tips = [advice_map.get(f, "") for f in top_features if advice_map.get(f)]
 
@@ -119,23 +116,6 @@ def convert_features_to_meaning(feats):
 
 def humanize_features(features):
     return [feature_meaning.get(f, f"Impact from {f}") for f in features]
-
-@st.cache_resource
-def load_summarizer():
-    model_name = "google/flan-t5-base"
-
-    # If local model exists, load locally
-    if os.path.exists(MODEL_PATH):
-        tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
-        model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_PATH)
-    else:
-        # Download once, then save locally
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-        tokenizer.save_pretrained(MODEL_PATH)
-        model.save_pretrained(MODEL_PATH)
-
-    return tokenizer, model
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
